@@ -38,7 +38,7 @@ class SimpleConvertTest {
     @Test
     void checkSet() {
         SimpleConvert simpleConvert = new SimpleConvert();
-        Set<String> set = simpleConvert.toSet("1","2", "2", "3", "4", "4", "5");
+        Set<String> set = simpleConvert.toSet("1", "2", "2", "3", "4", "4", "5");
         Set<Integer> integerSet = set.stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
