@@ -18,18 +18,19 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         int oldCapacity = container.length;
         if (oldCapacity > 0) {
             container = Arrays.copyOf(container, container.length * 2);
+        } else if (oldCapacity == 0) {
+            container = Arrays.copyOf(container, container.length + 1);
         }
         return container;
     }
 
     @Override
     public void add(T value) {
-        modCount++;
         if (size == container.length) {
             grow();
         }
-        container[size] = value;
-        size++;
+        container[size++] = value;
+        modCount++;
     }
 
     @Override
@@ -41,12 +42,13 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T remove(int index) {
-        modCount++;
         T oldValue = get(index);
         System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         container[container.length - 1] = null;
         size--;
+        modCount++;
         return oldValue;
+
     }
 
     @Override
@@ -81,7 +83,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 }
                 return container[cursor++];
             }
-
         };
     }
 }
