@@ -18,7 +18,11 @@ public class ResultFile {
     public static void main(String[] args) {
         try (FileOutputStream out = new FileOutputStream("result.txt")) {
             String multiplicationTable = Arrays.deepToString(multiple(5));
-            out.write(multiplicationTable.getBytes());
+            String[] subStr = multiplicationTable.split("],");
+            for (String s : subStr) {
+                out.write(s.getBytes());
+                out.write(System.lineSeparator().getBytes());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
