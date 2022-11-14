@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class LogFilter {
                         return Objects.equals(split[split.length - 2], "404");
                     })
                     .collect(Collectors.toList());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return stringList;
