@@ -15,11 +15,9 @@ class AnalysisTest {
     void unavailable(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("testServer.log").toFile();
         try (PrintWriter out = new PrintWriter(source)) {
-            out.println("200 10:56:01\n" +
-                    "500 10:57:01\n" +
-                    "400 10:58:01\n" +
-                    "500 11:01:02\n" +
-                    "200 11:02:02\n");
+            out.println("200 10:56:01\n"
+                    + "500 10:57:01\n" + "400 10:58:01\n"
+                    + "500 11:01:02\n" + "200 11:02:02\n");
         }
         File target  = tempDir.resolve("testTarget.txt").toFile();
         Analysis analysis = new Analysis();
