@@ -8,8 +8,8 @@ import java.io.FileOutputStream;
 
 public class Analysis {
     public void unavailable(String source, String target) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(source))) {
-            try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(target))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(source));
+            PrintWriter printWriter = new PrintWriter(new FileOutputStream(target))) {
                 boolean flag = true;
                 while (bufferedReader.ready()) {
                     String readLine = bufferedReader.readLine();
@@ -23,7 +23,6 @@ public class Analysis {
                         printWriter.println(readLine.split(" ")[1]);
                     }
                 }
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
