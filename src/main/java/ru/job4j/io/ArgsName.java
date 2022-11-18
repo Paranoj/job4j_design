@@ -10,7 +10,7 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("No element with that key exist.");
+            throw new IllegalArgumentException("No element with that key exist: " + key);
         }
         return values.get(key);
     }
@@ -24,17 +24,17 @@ public class ArgsName {
 
     public boolean contract(String s) {
         if (s.startsWith("-=")) {
-            throw new IllegalArgumentException("No key detected.");
+            throw new IllegalArgumentException(String.format("No key detected: %s ", s));
         }
-        if (!s.contains("-")) {
-            throw new IllegalArgumentException("No dash detected.");
+        if (!s.startsWith("-")) {
+            throw new IllegalArgumentException(String.format("The string must start with dash: %s", s));
         }
         if (!s.contains("=")) {
-            throw new IllegalArgumentException("No equality sign detected.");
+            throw new IllegalArgumentException(String.format("No equality sign detected: %s", s));
         }
-        if ((s.indexOf("=") == s.lastIndexOf("=")) && s.endsWith("=")) {
-            throw new IllegalArgumentException("String can't end with equality"
-                    + " sign while it has only one equality sign.");
+        if (s.split("=", 2)[1].isEmpty()) {
+            throw new IllegalArgumentException(String.format("String can't end with equality"
+                    + " sign while it has only one equality sign: %s", s));
         }
         return true;
     }
