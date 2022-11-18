@@ -23,21 +23,18 @@ public class ArgsName {
     }
 
     public boolean contract(String s) {
-        if ((s.indexOf("=") == s.lastIndexOf("=")) && s.endsWith("=")) {
-            throw new IllegalArgumentException("String can't end with equality"
-                    + " sign while it has only one equality sign.");
-        }
         if (s.startsWith("-=")) {
             throw new IllegalArgumentException("No key detected.");
-        }
-        if (s.indexOf("=") == s.length()) {
-            throw new IllegalArgumentException("No value detected.");
         }
         if (!s.contains("-")) {
             throw new IllegalArgumentException("No dash detected.");
         }
         if (!s.contains("=")) {
             throw new IllegalArgumentException("No equality sign detected.");
+        }
+        if ((s.indexOf("=") == s.lastIndexOf("=")) && s.endsWith("=")) {
+            throw new IllegalArgumentException("String can't end with equality"
+                    + " sign while it has only one equality sign.");
         }
         return true;
     }
@@ -51,11 +48,11 @@ public class ArgsName {
         return names;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
         ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
-    }
+    }*/
 }
