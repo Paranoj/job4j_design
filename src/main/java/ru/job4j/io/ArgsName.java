@@ -10,7 +10,7 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("No element with that key exist: " + key);
+            throw new IllegalArgumentException(String.format("No element with that key exist: %s", key));
         }
         return values.get(key);
     }
@@ -32,7 +32,7 @@ public class ArgsName {
         if (!s.contains("=")) {
             throw new IllegalArgumentException(String.format("No equality sign detected: %s", s));
         }
-        if (s.split("=", 2)[1].isEmpty()) {
+        if (s.indexOf("=") == s.length() - 1) {
             throw new IllegalArgumentException(String.format("String can't end with equality"
                     + " sign while it has only one equality sign: %s", s));
         }
@@ -48,11 +48,11 @@ public class ArgsName {
         return names;
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
         ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
-    }*/
+    }
 }
