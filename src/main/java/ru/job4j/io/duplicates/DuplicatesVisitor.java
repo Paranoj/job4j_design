@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    private Map<FileProperty, List<Path>> map = new HashMap<>();
+    private final Map<FileProperty, List<Path>> map = new HashMap<>();
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -24,7 +24,7 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     }
 
     public void getDuplicate() {
-        map.values().stream()
+        map.values()
                 .forEach(System.out::println);
     }
 }
