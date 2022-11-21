@@ -26,29 +26,33 @@ public class Zip {
         }
     }
 
-    /*public void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static void validate(ArgsName argsName) {
+        File file = new File(argsName.get("d"));
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException(String.format(
+                    "The directory to be archived doesn't exist: %s", file.getAbsoluteFile()));
         }
-    }*/
-
-    public static void contract(String[] args) {
-        if (args.length != 3) {
-            throw new IllegalArgumentException("Wrong number of parameters to realize the program.");
+        if (!argsName.get("d").substring(1).startsWith(":\\")) {
+            throw new IllegalArgumentException(String.format(
+                    "The directory must start with :\\ - %s", argsName.get("d")));
+        }
+        if (!argsName.get("e").startsWith(".")) {
+            throw new IllegalArgumentException(String.format(
+                    "The exclusion must start with dot - %s", argsName.get("e")));
+        }
+        if (!argsName.get("o").endsWith(".zip")) {
+            throw new IllegalArgumentException(String.format(
+                    "The output must end with an extension .zip - %s", argsName.get("o")));
         }
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Wrong number of parameters to realize the program.");
+        }
         Zip zip = new Zip();
         ArgsName argsName = ArgsName.of(args);
-        /*Search.search(Path.of(argsName.get("d")),
-                path -> !path.toFile().getName().endsWith(argsName.get("e")))
-                .forEach(System.out::println); */
+        validate(argsName);
         List<Path> list = Search.search(Path.of(argsName.get("d")),
                 path -> !path.toFile().getName().endsWith(argsName.get("e")));
         zip.packFiles(list, new File(argsName.get("o")));
