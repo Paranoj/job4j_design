@@ -32,10 +32,6 @@ public class Zip {
             throw new IllegalArgumentException(String.format(
                     "The directory to be archived doesn't exist: %s", file.getAbsoluteFile()));
         }
-        if (!argsName.get("d").substring(1).startsWith(":\\")) {
-            throw new IllegalArgumentException(String.format(
-                    "The directory must start with :\\ - %s", argsName.get("d")));
-        }
         if (!argsName.get("e").startsWith(".")) {
             throw new IllegalArgumentException(String.format(
                     "The exclusion must start with dot - %s", argsName.get("e")));
