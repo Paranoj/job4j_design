@@ -23,11 +23,11 @@ public class CSVReader {
             throw new IllegalArgumentException(String.format(
                     "File doesn't exist in the chosen directory: %s", argsName.get("path")));
         }
-        if (!argsName.get("out").endsWith("stdout") || !Files.exists(Path.of(argsName.get("out")))) {
+        if (!argsName.get("out").matches("stdout") || !Files.exists(Path.of(argsName.get("out")))) {
             throw new IllegalArgumentException(String.format(
                     "Out must contain stdout or path to file: %s", argsName.get("out")));
         }
-        if (!argsName.get("delimiter").endsWith(";") && !argsName.get("delimiter").endsWith(",")) {
+        if (!argsName.get("delimiter").matches(";") && !argsName.get("delimiter").matches(",")) {
             throw new IllegalArgumentException(String.format(
                     "Delimiter must contain ; or ,: %s", argsName.get("delimiter")));
         }
