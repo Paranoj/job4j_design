@@ -16,8 +16,9 @@ public class UsageLog4j {
         boolean married = false;
         long wealth = 999999999;
         double honesty = 0.000001D;
+        int smth = 555555;
         LOG.debug("User info name : {}, age : {}, sex : {}, height : {},"
-                        + " weight : {}, married : {}, wealth : {}, honesty : {}",
-                name, age, sex, height, weight, married, wealth, honesty);
+                        + " weight : {}, married : {}, wealth : {}, honesty : {}, something : {}",
+                name, age, sex, height, weight, married, wealth, honesty, smth);
     }
 }
