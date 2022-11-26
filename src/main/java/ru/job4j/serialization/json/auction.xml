@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="UTF-8" ?>
-<car availability="true" price="20000.0" brand="Skoda" >
+<car availability="true" price="20000.0" brand="Skoda">
     <model mod="Octavia RS"/>
     <statuses>
         <status>Shipping soon</status>
