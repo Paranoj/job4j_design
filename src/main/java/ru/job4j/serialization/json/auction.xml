@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<car availability="true" price="20000.0" brand="Skoda" >
+    <model mod="Octavia RS"/>
+    <statuses>
+        <status>Shipping soon</status>
+        <status>Shipped</status>
+        <status>Out for delivery</status>
+        <status>Delivered</status>
+    </statuses>
+</car>
