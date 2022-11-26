@@ -7,6 +7,10 @@ public class Model {
         this.mod = mod;
     }
 
+    public String getMod() {
+        return mod;
+    }
+
     @Override
     public String toString() {
         return "Model{"

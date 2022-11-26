@@ -17,6 +17,26 @@ public class Car {
         this.statuses = statuses;
     }
 
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
+    }
+
     @Override
     public String toString() {
         return "Car{"
