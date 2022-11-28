@@ -27,15 +27,15 @@ public class FileSearchTool {
                     "The output file must have an extension in the end of string: %s",
                     argsName.get("o")));
         }
-        if (argsName.get("t").equals("mask") && (!argsName.get("n").startsWith("*"))) {
+        if ("mask".equals(argsName.get("t")) && (!argsName.get("n").startsWith("*"))) {
             throw new IllegalArgumentException(String.format(
                     "While searching by mask the string must start with \"*\": %s", argsName.get("n")));
         }
-        if (argsName.get("t").equals("name") && (!argsName.get("n").matches(".*\\..*"))) {
+        if ("name".equals(argsName.get("t")) && (!argsName.get("n").matches(".*\\..*"))) {
             throw new IllegalArgumentException(String.format(
                     "While searching by name the string must contain \".\" for the format: %s", argsName.get("n")));
         }
-        if (argsName.get("t").equals("regex") && (!argsName.get("n").startsWith(".*"))) {
+        if ("regex".equals(argsName.get("t")) && (!argsName.get("n").startsWith(".*"))) {
             throw new IllegalArgumentException(String.format(
                     "While searching by regex the string must start with \".*\": %s", argsName.get("n")));
         }
