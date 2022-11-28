@@ -53,17 +53,17 @@ public class FileSearchTool {
 
     private Predicate<Path> searchType(ArgsName argsName) {
         Predicate<Path> condition = null;
-        if (argsName.get("t").equals("name")) {
+        if ("name".equals(argsName.get("t"))) {
             condition = path -> path.toFile().getName().matches(argsName.get("n"));
         }
-        if (argsName.get("t").equals("mask")) {
+        if ("mask".equals(argsName.get("t"))) {
             String mask = argsName.get("n")
                             .replace(".", "\\.")
                             .replace("?", ".?")
                             .replace("*", ".*");
             condition = path -> path.toFile().getName().matches(mask);
         }
-        if (argsName.get("t").equals("regex")) {
+        if ("regex".equals(argsName.get("t"))) {
             Pattern pattern = Pattern.compile(argsName.get("n"));
             condition = path -> pattern.matcher(path.toFile().getName()).matches();
         }
