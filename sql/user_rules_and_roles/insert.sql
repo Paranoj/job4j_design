@@ -32,4 +32,4 @@ insert into discuss(name, item_id) values ('Parkinson disease', 2);
 
 insert into attachs(name, item_id) values ('tips.jpg', 1);
 insert into attachs(name, item_id) values ('manual.pdf', 3);
-insert into discuss(name, item_id) values ('Parkinson.docx', 2);
+insert into attachs(name, item_id) values ('Parkinson.docx', 2);
