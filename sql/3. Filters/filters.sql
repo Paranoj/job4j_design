@@ -39,6 +39,8 @@ insert into product(name, type_id, expired_date, price) values
 ('Мороженое Slendy фисташка', 3, '22-01-2023', 39.99);
 insert into product(name, type_id, expired_date, price) values
 ('Мороженое Slendy лесной орех', 3, '22-01-2023', 39.99);
+insert into product(name, type_id, expired_date, price) values
+('Чеддер', 1, '01-01-2023', 299.5);
 
 
 select * from product
@@ -52,7 +54,9 @@ where name like '%Мороженое%';
 select * from product
 where expired_date < current_date;
 
-select max(price) from product;
+select p.name, p.price
+from product p
+where p.price = (select max(p.price) from product p);
 
 select t.name Имя_типа, count(p.id) Количество
 from product p
