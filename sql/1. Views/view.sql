@@ -5,6 +5,7 @@ create table students (
 
 insert into students (name) values ('Иван Иванов');
 insert into students (name) values ('Петр Петров');
+insert into students (name) values ('Сергей Сергеев');
 
 create table authors (
     id serial primary key,
@@ -27,6 +28,7 @@ insert into books (name, author_id) values ('Дубровский', 1);
 insert into books (name, author_id) values ('Мертвые души', 2);
 insert into books (name, author_id) values ('Вий', 2);
 insert into books (name, author_id) values ('Тарас Бульба', 2);
+insert into books (name, author_id) values ('Горе от ума', 3);
 
 create table orders (
     id serial primary key,
@@ -37,33 +39,42 @@ create table orders (
 
 insert into orders (book_id, student_id) values (1, 1);
 insert into orders (book_id, student_id) values (3, 1);
-insert into orders (book_id, student_id) values (5, 2);
 insert into orders (book_id, student_id) values (4, 1);
+insert into orders (book_id, student_id) values (5, 2);
 insert into orders (book_id, student_id) values (2, 2);
+insert into orders (book_id, student_id) values (7, 3);
 
-select s.name student, b.name book, count(s.name), a.name author
-	from students as s
+
+select s.name student from students as s
     join orders o on s.id = o.student_id
     right join books b on o.book_id = b.id
-    right join authors a on b.author_id = a.id
-	where o.book_id is null
-	or b.name like '%души%'
-	or b.author_id is null
-	or a.name like 'А%'
-    group by (s.name, a.name, b.name)
-	having count(s.name) < 2;
+    join authors a on b.author_id = a.id
+	where s.name is not null
+    group by (s.name)
+	having count(*) < 2	
+union
+select b.name book from students as s
+    join orders o on s.id = o.student_id
+    right join books b on o.book_id = b.id
+    join authors a on b.author_id = a.id
+	where s.name is null
+	group by (b.name, a.name);
 	
 create view poor_imagination
-	as select s.name student, b.name book, count(s.name), a.name author
-		from students as s
-    	join orders o on s.id = o.student_id
-    	right join books b on o.book_id = b.id
-    	right join authors a on b.author_id = a.id
-		where o.book_id is null
-		or b.name like '%души%'
-		or b.author_id is null
-		or a.name like 'А%'
-    	group by (s.name, a.name, b.name)
-		having count(s.name) < 2;
-		
+	as select s.name student from students as s
+    join orders o on s.id = o.student_id
+    right join books b on o.book_id = b.id
+    join authors a on b.author_id = a.id
+	where s.name is not null
+    group by (s.name)
+	having count(*) < 2	
+union
+select b.name book from students as s
+    join orders o on s.id = o.student_id
+    right join books b on o.book_id = b.id
+    join authors a on b.author_id = a.id
+	where s.name is null
+	group by (b.name, a.name);
+	
+drop view poor_imagination;		
 select * from poor_imagination;
