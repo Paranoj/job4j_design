@@ -42,39 +42,21 @@ insert into orders (book_id, student_id) values (3, 1);
 insert into orders (book_id, student_id) values (4, 1);
 insert into orders (book_id, student_id) values (5, 2);
 insert into orders (book_id, student_id) values (2, 2);
-insert into orders (book_id, student_id) values (7, 3);
 
 
-select s.name student from students as s
-    join orders o on s.id = o.student_id
-    right join books b on o.book_id = b.id
-    join authors a on b.author_id = a.id
-	where s.name is not null
-    group by (s.name)
-	having count(*) < 2	
+select s.name as "Студент", '**' as "Скучные книги" from students as s
+	where s.id not in (select student_id from orders)
 union
-select b.name book from students as s
-    join orders o on s.id = o.student_id
-    right join books b on o.book_id = b.id
-    join authors a on b.author_id = a.id
-	where s.name is null
-	group by (b.name, a.name);
+select '***', b.name from books as b
+	where b.id not in (select book_id from orders);
 	
 create view poor_imagination
-	as select s.name student from students as s
-    join orders o on s.id = o.student_id
-    right join books b on o.book_id = b.id
-    join authors a on b.author_id = a.id
-	where s.name is not null
-    group by (s.name)
-	having count(*) < 2	
+	as select s.name as "Студент", '**' as "Скучные книги" from students as s
+	where s.id not in (select student_id from orders)
 union
-select b.name book from students as s
-    join orders o on s.id = o.student_id
-    right join books b on o.book_id = b.id
-    join authors a on b.author_id = a.id
-	where s.name is null
-	group by (b.name, a.name);
+select '***', b.name from books as b
+	where b.id not in (select book_id from orders);
 	
 drop view poor_imagination;		
 select * from poor_imagination;
+drop table orders cascade;
