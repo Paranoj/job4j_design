@@ -25,3 +25,17 @@ insert into products (name, count, price) VALUES ('product_17', 17, 85);
 insert into products (name, count, price) VALUES ('product_18', 18, 90);
 insert into products (name, count, price) VALUES ('product_19', 19, 95);
 insert into products (name, count, price) VALUES ('product_20', 20, 100);
+
+start transaction;
+declare cp cursor for select * from products;
+move 21 from cp;
+fetch backward 20 from cp;
+move 15 from cp;
+fetch backward from cp;
+move backward 9 from cp;
+fetch from cp;
+move backward 6 from cp;
+fetch from cp;
+fetch backward from cp;
+close cp;
+commit;
