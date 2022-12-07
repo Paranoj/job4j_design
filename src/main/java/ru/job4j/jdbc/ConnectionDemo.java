@@ -2,6 +2,8 @@ package ru.job4j.jdbc;
 
 import ru.job4j.io.Config;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -9,9 +11,9 @@ import java.sql.SQLException;
 
 public class ConnectionDemo {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
         Config config = new Config("app_jdbc.properties");
         config.load();
+        Class.forName(config.value("driver_class"));
         try (Connection connection = DriverManager.getConnection(config.value("url"),
                 config.value("login"), config.value("password"))) {
             DatabaseMetaData metaData = connection.getMetaData();
