@@ -22,10 +22,22 @@ public class ImportDB {
         this.dump = dump;
     }
 
+    public boolean contract(String[] s) {
+        if (s.length != 3) {
+            throw new IllegalArgumentException("The string must consist of 2 elements: name and email.");
+        }
+        if (s[0].isEmpty() || s[1].isEmpty()) {
+            throw new IllegalArgumentException("Name or email in the string is empty.");
+        }
+        return true;
+    }
+
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            rd.lines().map(s -> s.trim().split(";", 2))
+            rd.lines()
+                    .map(s -> s.trim().split(";", 3))
+                    .filter(this::contract)
                     .forEach(strings -> users.add(new User(strings[0], strings[1])));
         }
         return users;
