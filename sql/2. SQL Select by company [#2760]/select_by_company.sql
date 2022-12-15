@@ -29,7 +29,7 @@ select p.name Имена, c.name as "Название компании"
 from person p
 join company c
 on p.company_id = c.id
-where company_id != 4;
+where company_id != 5;
 
 select c.name as "Название компании", count(*) as "Количество человек"
 from person p
