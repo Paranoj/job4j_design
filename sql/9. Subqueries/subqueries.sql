@@ -19,4 +19,4 @@ CREATE TABLE orders(
 
 INSERT INTO orders (amount, customer_id) VALUES (2, 1), (1, 2);	
 
-SELECT * FROM customers WHERE customer_id NOT IN (SELECT orders.id FROM orders);
+SELECT * FROM customers WHERE customers.id NOT IN (SELECT customer_id FROM orders);
