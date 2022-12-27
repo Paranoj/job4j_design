@@ -24,5 +24,4 @@ public class GCDemo {
         System.gc();
         info();
     }
-
 }
