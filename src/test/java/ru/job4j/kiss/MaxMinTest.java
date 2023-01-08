@@ -19,7 +19,6 @@ class MaxMinTest {
         comparator = Comparator.naturalOrder();
     }
 
-
     @Test
     void whenFindMax() {
         assertThat(maxMin.max(list, comparator)).isEqualTo(7);
