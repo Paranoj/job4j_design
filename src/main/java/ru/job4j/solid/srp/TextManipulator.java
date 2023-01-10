@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TextManipulator {
-    private String text;
+    private final String text;
 
     public TextManipulator(String text) {
         this.text = text;
@@ -16,7 +16,7 @@ public class TextManipulator {
     }
 
     public String appendText(String str) {
-        return text = text.concat(str);
+        return text.concat(str);
     }
 
     public List<String> textSplitter(String str) {
