@@ -1,3 +1,6 @@
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:18 +0300] "GET /items/ajax.html HTTP/1.1" 404 1113
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:23 +0300] "GET /job4j.ru/profile/ HTTP/1.1" 404 1110
-0:0:0:0:0:0:0:1 - - [19/Feb/2020:15:21:34 +0300] "GET /job4j.ru/profileNew/ HTTP/1.1" 404 -
+Здравствуйте, дорогая и.о. секретаря
+За последние сутки во вверенных Вам сайтах произошли следующие изменения:
+Появились следующие новые страницы: [https://career.habr.com/vacancies/java_developer?=page4]
+Изменились следующие страницы: [https://career.habr.com/vacancies/java_developer?=page5, https://career.habr.com/vacancies/java_developer?=page1]
+Исчезли следующие страницы: [https://career.habr.com/vacancies/java_developer?=page2, https://career.habr.com/vacancies/java_developer?=page3]
+С уважением, автоматизированная система мониторинга.
