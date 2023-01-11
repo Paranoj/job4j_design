@@ -40,13 +40,6 @@ public class ChangesInWebsitesCode {
     );
 
     /**
-     * Созданы хранилища для записи URL потерянных, обновленных и добавленных сайтов.
-     */
-    private final List<String> listLost = new ArrayList<>();
-    private final List<String> listChanged = new ArrayList<>();
-    private final List<String> listAdded = new ArrayList<>();
-
-    /**
      * Метод производит валидацию хранилища объектов Web по наличию значений
      * в нём. Проверяет что ключом хэш-таблицы является URL-ссылка.
      */
@@ -82,10 +75,12 @@ public class ChangesInWebsitesCode {
 
     /**
      * Метод принимает на вход 2 хэш-таблицы, содержащие состояния сайтов на вчера и сегодня соответственно.
-     * Производится добавление URL-ов в соответствующие хранилища для записи изменений по заданному
-     * множеству веб-сайтов.
+     * Производится добавление URL-ов в соответствующие хранилища для записи изменений по
+     * заданному множеству веб-сайтов.
      */
-    public void specification(Map<String, String> y, Map<String, String> t) {
+    public UrlList specification(Map<String, String> y, Map<String, String> t) {
+        List<String> listAdded = new ArrayList<>();
+        List<String> listChanged = new ArrayList<>();
         for (Map.Entry<String, String> entry : t.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -99,19 +94,20 @@ public class ChangesInWebsitesCode {
             });
             y.remove(key);
         }
-        listLost.addAll(y.keySet());
+        List<String> listLost = new ArrayList<>(y.keySet());
+        return new UrlList(listLost, listChanged, listAdded);
     }
 
     /**
      * Метод позволяет произвести преобразования строк к виду, заявленному в ТЗ.
      * @return возвращает строку для дальнейшего ее переноса в текстовый файл.
      */
-    public String appender(StringBuilder sb) {
-        return sb.append("Здравствуйте, дорогая и.о. секретаря").append(LS)
+    public String appender(UrlList urlList) {
+        return new StringBuilder("Здравствуйте, дорогая и.о. секретаря").append(LS)
                 .append("За последние сутки во вверенных Вам сайтах произошли следующие изменения:").append(LS)
-                .append(ADDED).append(listAdded).append(LS)
-                .append(CHANGED).append(listChanged).append(LS)
-                .append(LOST).append(listLost).append(LS)
+                .append(ADDED).append(urlList.getListAdded()).append(LS)
+                .append(CHANGED).append(urlList.getListChanged()).append(LS)
+                .append(LOST).append(urlList.getListLost()).append(LS)
                 .append("С уважением, автоматизированная система мониторинга.").toString();
     }
 
@@ -119,9 +115,9 @@ public class ChangesInWebsitesCode {
         ChangesInWebsitesCode changesInWebsitesCode = new ChangesInWebsitesCode();
         var yesterdayCondition = changesInWebsitesCode.mapFilling(websitesY);
         var todayCondition = changesInWebsitesCode.mapFilling(websitesT);
-        changesInWebsitesCode.specification(yesterdayCondition, todayCondition);
+        var url = changesInWebsitesCode.specification(yesterdayCondition, todayCondition);
         try (FileOutputStream out = new FileOutputStream("rsl.txt")) {
-            out.write(changesInWebsitesCode.appender(new StringBuilder()).getBytes(StandardCharsets.UTF_8));
+            out.write(changesInWebsitesCode.appender(url).getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -18,8 +18,8 @@ class ChangesInWebsitesCodeTest {
                 "12345"));
         var yesterday = changesInWebsitesCode.mapFilling(y);
         var today = changesInWebsitesCode.mapFilling(t);
-        changesInWebsitesCode.specification(yesterday, today);
-        String actual = changesInWebsitesCode.appender(new StringBuilder());
+        var urlList = changesInWebsitesCode.specification(yesterday, today);
+        String actual = changesInWebsitesCode.appender(urlList);
         String expected = String.join(
                 System.lineSeparator(),
                 "Здравствуйте, дорогая и.о. секретаря",
@@ -44,8 +44,8 @@ class ChangesInWebsitesCodeTest {
                         "123456"));
         var yesterday = changesInWebsitesCode.mapFilling(y);
         var today = changesInWebsitesCode.mapFilling(t);
-        changesInWebsitesCode.specification(yesterday, today);
-        String actual = changesInWebsitesCode.appender(new StringBuilder());
+        var urlList = changesInWebsitesCode.specification(yesterday, today);
+        String actual = changesInWebsitesCode.appender(urlList);
         String expected = String.join(
                 System.lineSeparator(),
                 "Здравствуйте, дорогая и.о. секретаря",
@@ -56,5 +56,4 @@ class ChangesInWebsitesCodeTest {
                 "С уважением, автоматизированная система мониторинга.");
         assertThat(actual).isEqualTo(expected);
     }
-
 }

@@ -6,6 +6,10 @@ public class Website {
     private String url;
     private String html;
 
+    /**
+     * Модель данных для представления веб-сайтов в виде url-html.
+     */
+
     public Website(String url, String html) {
         this.url = url;
         this.html = html;
