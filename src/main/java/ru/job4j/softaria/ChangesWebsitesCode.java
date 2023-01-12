@@ -1,14 +1,12 @@
 package ru.job4j.softaria;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ChangesWebsitesCode implements Changes {
 
@@ -16,38 +14,30 @@ public class ChangesWebsitesCode implements Changes {
     private static final String ADDED = "Появились следующие новые страницы: ";
     private static final String CHANGED = "Изменились следующие страницы: ";
     private static final String LS = System.lineSeparator();
+    private static final String HTML_PATTERN = "<(\"[^\"]*\"|'[^']*'|[^'\">])*>";
 
     /**
      * Метод производит валидацию хранилища объектов Web по наличию значений
-     * в нём. Проверяет что ключом хэш-таблицы является URL-ссылка.
+     * в нём. Проверяет что ключом хэш-таблицы является URL-ссылка, а значением HTML-код.
      */
-    private void validation(List<Website> web) {
-        if (web.isEmpty()) {
-            throw new IllegalArgumentException("List is empty.");
+    private void validation(Map<String, String> map) {
+        Pattern pattern = Pattern.compile(HTML_PATTERN);
+        if (map.isEmpty()) {
+            throw new IllegalArgumentException("Map is empty.");
         }
-        for (Website w : web) {
+        for (String key : map.keySet()) {
             try {
-                new URL(w.getUrl());
+                new URL(key);
             } catch (MalformedURLException e) {
                 throw new IllegalArgumentException(String.format(
-                        "Map must consist of url as key, and html as value: %s",
-                        w.getUrl()
+                        "Map must consist of url as key: %s", key
                 ));
             }
+            if (!pattern.matcher(map.get(key)).find()) {
+                throw new IllegalArgumentException(String.format("Map must consist of html as value: %s",
+                        map.get(key)));
+            }
         }
-    }
-
-    /**
-     * Метод принимает на вход список объектов типа Website и добавляет их в хэш-таблицы,
-     * которые даны по условию.
-     */
-    private Map<String, String> mapFilling(List<Website> websitesList) {
-        validation(websitesList);
-        Map<String, String> map = new HashMap<>();
-        for (Website websites : websitesList) {
-            map.put(websites.getUrl(), websites.getHtml());
-        }
-        return map;
     }
 
     /**
@@ -56,6 +46,8 @@ public class ChangesWebsitesCode implements Changes {
      * заданному множеству веб-сайтов.
      */
     private UrlList specification(Map<String, String> y, Map<String, String> t) {
+        validation(y);
+        validation(t);
         List<String> listAdded = new ArrayList<>();
         List<String> listChanged = new ArrayList<>();
         for (Map.Entry<String, String> entry : t.entrySet()) {
@@ -94,40 +86,8 @@ public class ChangesWebsitesCode implements Changes {
      * @return Возвращает строку в виде письма в формате, представленном в ТЗ.
      */
     @Override
-    public String letter(List<Website> y, List<Website> t) {
-        var yesterdayCondition = mapFilling(y);
-        var todayCondition = mapFilling(t);
-        var url = specification(yesterdayCondition, todayCondition);
+    public String letter(Map<String, String> y, Map<String, String> t) {
+        var url = specification(y, t);
         return appender(url);
-    }
-
-    /**
-     * Созданы хранилища для объектов Website с целью демонстрации работы приложения.
-     */
-    public static void main(String[] args) {
-        List<Website> websitesY = List.of(
-                new Website("https://career.habr.com/vacancies/java_developer?=page1",
-                        "12345"),
-                new Website("https://career.habr.com/vacancies/java_developer?=page2",
-                        "12345"),
-                new Website("https://career.habr.com/vacancies/java_developer?=page3",
-                        "12345"),
-                new Website("https://career.habr.com/vacancies/java_developer?=page5",
-                        "123")
-        );
-        List<Website> websitesT = List.of(
-                new Website("https://career.habr.com/vacancies/java_developer?=page1",
-                        "1234"),
-                new Website("https://career.habr.com/vacancies/java_developer?=page4",
-                        "12345"),
-                new Website("https://career.habr.com/vacancies/java_developer?=page5",
-                        "12345")
-        );
-        ChangesWebsitesCode changesInWebsitesCode = new ChangesWebsitesCode();
-        try (FileOutputStream out = new FileOutputStream("rsl.txt")) {
-            out.write(changesInWebsitesCode.letter(websitesY, websitesT).getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
