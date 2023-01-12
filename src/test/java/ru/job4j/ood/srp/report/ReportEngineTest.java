@@ -87,7 +87,7 @@ public class ReportEngineTest {
         store.add(worker);
         Report engine = new ReportEngineForDevs(store, parser);
         StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
+                .append("Name;Hired;Fired;Salary")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
                 .append(parser.parse(worker.getHired())).append(";")
