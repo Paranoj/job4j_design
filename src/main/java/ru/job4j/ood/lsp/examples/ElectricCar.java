@@ -2,8 +2,8 @@ package ru.job4j.ood.lsp.examples;
 
 public class ElectricCar implements Car {
 
-    /* Нарушение принципа LSP - Реализация ElectricCar не может выполнить метод turnOnEngine(),
-    * т.к. в электромобилях не используется ДВС. */
+    /* Нарушение принципа LSP - Реализация ElectricCar не может выполнить метод
+    turnOnEngine(), т.к. в электромобилях не используется ДВС. */
 
     @Override
     public void turnOnEngine() {
