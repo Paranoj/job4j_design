@@ -41,7 +41,7 @@ class PublicParkingTest {
         Parking parking = new PublicParking(4, 0);
         parking.add(truck);
         parking.add(bmw);
-        assertThat(parking.getAll()).isEqualTo(List.of(truck, bmw));
+        assertThat(parking.getCars()).isEqualTo(List.of(truck, bmw));
     }
 
     @Test
@@ -63,6 +63,8 @@ class PublicParkingTest {
         Parking parking = new PublicParking(2, 1);
         parking.add(truck);
         parking.add(toyota);
-        assertThat(parking.add(bmw)).isTrue();
+        parking.add(bmw);
+        assertThat(parking.getCars()).isEqualTo(List.of(toyota, bmw));
+        assertThat(parking.getTrucks()).isEqualTo(List.of(truck));
     }
 }

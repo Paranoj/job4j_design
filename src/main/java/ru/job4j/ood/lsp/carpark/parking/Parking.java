@@ -8,5 +8,7 @@ public interface Parking {
 
     boolean add(Vehicle vehicle);
 
-    List<Vehicle> getAll();
+    List<Vehicle> getCars();
+
+    List<Vehicle> getTrucks();
 }

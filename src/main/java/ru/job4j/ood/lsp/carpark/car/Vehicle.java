@@ -2,7 +2,7 @@ package ru.job4j.ood.lsp.carpark.car;
 
 import java.util.Objects;
 
-public class Vehicle {
+public abstract class Vehicle {
 
     private String name;
 
