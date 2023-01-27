@@ -15,37 +15,38 @@ import static org.assertj.core.api.Assertions.*;
 class ControlQualityTest {
 
     private final ControlQuality controlQuality = new ControlQuality(List.of(
-            new Shop(), new Trash(), new Warehouse()
+            new Shop(new LocalDateExpirationCalculator()), new Trash(new LocalDateExpirationCalculator()),
+            new Warehouse(new LocalDateExpirationCalculator())
     ));
 
     @Test
     void whenDistributionToWarehouse() {
-        Food cookies = new Cookies("Original cookies", LocalDate.of(2023,  1, 20),
-                LocalDate.of(2023, 7, 20), 77, 0.4);
+        Food cookies = new Cookies("Original cookies", LocalDate.now(),
+                LocalDate.now().plusMonths(6), 77, 40);
         var store = controlQuality.distribution(cookies);
         assertThat(store).isInstanceOf(Warehouse.class);
     }
 
     @Test
     void whenDistributionToShop() {
-        Food cookies = new Cookies("Original cookies", LocalDate.of(2022,  12, 1),
-                LocalDate.of(2023, 6, 1), 77, 0.4);
+        Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(2),
+                LocalDate.now().plusMonths(6), 77, 40);
         var store = controlQuality.distribution(cookies);
         assertThat(store).isInstanceOf(Shop.class);
     }
 
     @Test
     void whenDistributionToTrash() {
-        Food cookies = new Cookies("Original cookies", LocalDate.of(2022, 6, 1),
-                LocalDate.of(2023, 1, 1), 77, 0.4);
+        Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(6).plusDays(5),
+                LocalDate.now().minusMonths(1), 77, 40);
         var store = controlQuality.distribution(cookies);
         assertThat(store).isInstanceOf(Trash.class);
     }
 
     @Test
     void whenDistributionToShopWithDiscount() {
-        Food cookies = new Cookies("Original cookies", LocalDate.of(2022,   8, 5),
-                LocalDate.of(2023, 2, 5), 77, 0.4);
+        Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(4),
+                LocalDate.now().plusDays(15), 77, 40);
         var store = controlQuality.distribution(cookies);
         var list = store.getAll();
         assertThat(list.get(0).getPrice()).isEqualTo(46.2D, offset(0.01D));
@@ -53,8 +54,8 @@ class ControlQualityTest {
 
     @Test
     void whenDistributionToShopWithoutDiscount() {
-        Food cookies = new Cookies("Original cookies", LocalDate.of(2022, 12, 5),
-                LocalDate.of(2023, 6, 5), 77, 0.4);
+        Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(2),
+                LocalDate.now().plusMonths(4), 77, 40);
         var store = controlQuality.distribution(cookies);
         var list = store.getAll();
         assertThat(list.get(0).getPrice()).isEqualTo(77D, offset(0.01D));
