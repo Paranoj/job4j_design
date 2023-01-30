@@ -24,5 +24,10 @@ public abstract class AbstractStore implements Store {
         return List.copyOf(foodList);
     }
 
+    @Override
+    public void clearStore() {
+        foodList.clear();
+    }
+
     protected abstract boolean inCondition(Food food);
 }

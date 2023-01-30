@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.productstore;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.ood.lsp.productstore.food.Bread;
 import ru.job4j.ood.lsp.productstore.food.Cookies;
 import ru.job4j.ood.lsp.productstore.food.Food;
 import ru.job4j.ood.lsp.productstore.store.Shop;
@@ -61,5 +62,17 @@ class ControlQualityTest {
         var store = controlQuality.distribution(cookies);
         var list = store.getAll();
         assertThat(list.get(0).getPrice()).isEqualTo(77D, offset(0.01D));
+    }
+
+    @Test
+    void whenDynamicRedistribution() {
+        Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(2),
+                LocalDate.now().plusMonths(4), 77, 40);
+        controlQuality.distribution(cookies);
+        Food bread = new Bread("Borodinskiy", LocalDate.now().minusDays(3),
+                LocalDate.now().plusDays(7), 45, 40);
+        controlQuality.distribution(bread);
+        controlQuality.resort();
+        assertThat(shop.getAll()).isEqualTo(List.of(cookies, bread));
     }
 }

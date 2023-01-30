@@ -9,4 +9,6 @@ public interface Store {
     boolean move(Food food);
 
     List<Food> getAll();
+
+    void clearStore();
 }
