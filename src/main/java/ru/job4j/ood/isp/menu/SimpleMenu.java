@@ -8,31 +8,31 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
+        if (findItem(childName).isPresent()) {
+            return false;
+        }
         if (Objects.equals(ROOT, parentName)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
             return true;
         }
         var parentOpt = findItem(parentName);
-        parentOpt.ifPresent(itemInfo -> itemInfo.menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate)));
-        return true;
+        if (parentOpt.isPresent()) {
+            parentOpt.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<MenuItemInfo> rsl = Optional.empty();
-        var opt = findItem(itemName);
-        if (opt.isPresent()) {
-            rsl = Optional.of(new MenuItemInfo(opt.get().menuItem,
-                    opt.get().number));
-        }
-        return rsl;
+        return findItem(itemName).map(itemInfo -> new MenuItemInfo(itemInfo.menuItem, itemInfo.number));
     }
 
     @Override
     public Iterator<MenuItemInfo> iterator() {
+        Iterator<ItemInfo> dfsIterator = new DFSIterator();
         return new Iterator<>() {
-            final Iterator<ItemInfo> dfsIterator = new DFSIterator();
-
             @Override
             public boolean hasNext() {
                 return dfsIterator.hasNext();

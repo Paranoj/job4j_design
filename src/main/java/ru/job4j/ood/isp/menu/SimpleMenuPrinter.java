@@ -11,12 +11,7 @@ public class SimpleMenuPrinter implements MenuPrinter {
     }
 
     private static String indents(String number) {
-        int count = -1;
-        for (int i = 0; i < number.length(); i++) {
-            if (number.charAt(i) == '.') {
-                count++;
-            }
-        }
-        return INDENTS.repeat(count) + number;
+        var array = number.split("\\.");
+        return INDENTS.repeat(array.length - 1) + number;
     }
 }

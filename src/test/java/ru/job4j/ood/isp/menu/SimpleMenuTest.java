@@ -64,4 +64,18 @@ class SimpleMenuTest {
         System.setOut(consoleStream);
         assertThat(expected).isEqualTo(rsl);
     }
+
+    @Test
+    public void whenDuplicateChild() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
+        assertThat(menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION)).isFalse();
+    }
+
+    @Test
+    public void whenNotFoundParent() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
+        assertThat(menu.add("Купить продукты", "Купить хлеб", STUB_ACTION)).isFalse();
+    }
 }
