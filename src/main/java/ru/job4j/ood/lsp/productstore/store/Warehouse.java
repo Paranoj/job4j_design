@@ -16,7 +16,7 @@ public class Warehouse extends AbstractStore {
     }
 
     @Override
-    boolean inCondition(Food food) {
+    protected boolean inCondition(Food food) {
         var value = expirationCalculator.calculateInPercent(food.getCreateDate(), food.getExpiryDate());
         return value < LOWER_THRESHOLD;
     }

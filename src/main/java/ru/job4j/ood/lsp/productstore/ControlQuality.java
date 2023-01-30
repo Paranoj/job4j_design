@@ -18,6 +18,7 @@ public class ControlQuality {
         for (Store store : storeList) {
             if (store.move(food)) {
                 rsl = store;
+                break;
             }
         }
         return rsl;

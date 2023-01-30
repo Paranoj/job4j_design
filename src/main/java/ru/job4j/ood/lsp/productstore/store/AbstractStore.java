@@ -21,8 +21,8 @@ public abstract class AbstractStore implements Store {
 
     @Override
     public List<Food> getAll() {
-        return foodList;
+        return List.copyOf(foodList);
     }
 
-    abstract boolean inCondition(Food food);
+    protected abstract boolean inCondition(Food food);
 }

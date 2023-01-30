@@ -15,7 +15,7 @@ public class Trash extends AbstractStore {
     }
 
     @Override
-    boolean inCondition(Food food) {
+    protected boolean inCondition(Food food) {
         var value = expirationCalculator.calculateInPercent(food.getCreateDate(), food.getExpiryDate());
         return value > TRASH_THRESHOLD;
     }

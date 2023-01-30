@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.ood.lsp.productstore.food.Cookies;
 import ru.job4j.ood.lsp.productstore.food.Food;
 import ru.job4j.ood.lsp.productstore.store.Shop;
+import ru.job4j.ood.lsp.productstore.store.Store;
 import ru.job4j.ood.lsp.productstore.store.Trash;
 import ru.job4j.ood.lsp.productstore.store.Warehouse;
 
@@ -14,33 +15,34 @@ import static org.assertj.core.api.Assertions.*;
 
 class ControlQualityTest {
 
+    private final Store warehouse = new Warehouse(new LocalDateExpirationCalculator());
+    private final Store shop = new Shop(new LocalDateExpirationCalculator());
+    private final Store trash = new Trash(new LocalDateExpirationCalculator());
     private final ControlQuality controlQuality = new ControlQuality(List.of(
-            new Shop(new LocalDateExpirationCalculator()), new Trash(new LocalDateExpirationCalculator()),
-            new Warehouse(new LocalDateExpirationCalculator())
-    ));
+            warehouse, shop, trash));
 
     @Test
     void whenDistributionToWarehouse() {
         Food cookies = new Cookies("Original cookies", LocalDate.now(),
                 LocalDate.now().plusMonths(6), 77, 40);
-        var store = controlQuality.distribution(cookies);
-        assertThat(store).isInstanceOf(Warehouse.class);
+        controlQuality.distribution(cookies);
+        assertThat(warehouse.getAll()).isEqualTo(List.of(cookies));
     }
 
     @Test
     void whenDistributionToShop() {
         Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(2),
                 LocalDate.now().plusMonths(6), 77, 40);
-        var store = controlQuality.distribution(cookies);
-        assertThat(store).isInstanceOf(Shop.class);
+        controlQuality.distribution(cookies);
+        assertThat(shop.getAll()).isEqualTo(List.of(cookies));
     }
 
     @Test
     void whenDistributionToTrash() {
         Food cookies = new Cookies("Original cookies", LocalDate.now().minusMonths(6).plusDays(5),
                 LocalDate.now().minusMonths(1), 77, 40);
-        var store = controlQuality.distribution(cookies);
-        assertThat(store).isInstanceOf(Trash.class);
+        controlQuality.distribution(cookies);
+        assertThat(trash.getAll()).isEqualTo(List.of(cookies));
     }
 
     @Test

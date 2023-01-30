@@ -16,14 +16,13 @@ public class Shop extends AbstractStore {
     }
 
     @Override
-    boolean inCondition(Food food) {
+    protected boolean inCondition(Food food) {
         var rsl = false;
         var value = expirationCalculator.calculateInPercent(food.getCreateDate(), food.getExpiryDate());
-        if (value >= Warehouse.LOWER_THRESHOLD && value <= UPPER_THRESHOLD) {
-            rsl = true;
-        }
-        if (value > UPPER_THRESHOLD) {
-            food.setPrice(priceWithDiscount(food));
+        if (value >= Warehouse.LOWER_THRESHOLD && value <= Trash.TRASH_THRESHOLD) {
+            if (value > UPPER_THRESHOLD) {
+                food.setPrice(priceWithDiscount(food));
+            }
             rsl = true;
         }
         return rsl;
